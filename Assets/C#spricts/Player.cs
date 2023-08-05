@@ -29,7 +29,9 @@ public class Player : MonoBehaviour
     private bool isJump = false;
     private bool isRun = false;
     private bool isDown = false;
+    private bool isOtherJump = false;
     private float jumpPos = 0.0f;
+    private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
     private float dashTime = 0.0f;
     private string enemyTag = "Enemy";
@@ -81,6 +83,35 @@ public class Player : MonoBehaviour
         float VerticalKey = Input.GetAxis("Vertical");
         //上ボタンが押されているときジャンプモーションを適用
 
+        if (isOtherJump)
+        {
+            //現在の高さが飛べる高さより下か
+            bool canHeight = jumpPos + otherJumpHeight > transform.position.y;
+            //ジャンプ時間が長くなりすぎてないか
+            bool canTime = jumpLimitTime > jumpTime;
+
+            if (canTime && canHeight && !isHead)
+            {   
+                ySpeed = jumpSpeed;
+                jumpTime += Time.deltaTime;
+            }
+            else
+            {
+                //Debug.Log("ジャンピングできません");
+                isOtherJump = false;
+                jumpTime = 0;
+            }
+
+        }
+        else if (isJump)
+        {
+            ySpeed *= jumpCurve.Evaluate(jumpTime);
+        }
+        else
+        {
+            //Debug.Log("現在地面判定にあります");
+            jumpTime = 0.0f;
+        }
         if (isGround)
         {
             if (VerticalKey > 0)
@@ -132,15 +163,16 @@ public class Player : MonoBehaviour
             }
 
         }
-        if (isJump)
+        if (isJump || isOtherJump)
         {
             ySpeed *= jumpCurve.Evaluate(jumpTime);
         }
         else
         {
+            //Debug.Log("現在地面判定にあります");
             jumpTime = 0.0f;
         }
-        Debug.Log(jumpTime);
+        //Debug.Log(jumpTime);
         return ySpeed;
     }
 
@@ -153,16 +185,16 @@ public class Player : MonoBehaviour
         float xSpeed = 0.0f;
         //アニメーションカーブを速度に適用
         xSpeed = speed;
-        if (isGround)
+        if (isGround &&! isCrash)
         {
             xSpeed += dashSpeed; 
             //地面に設置しているとき、ダッシュ速度が増加する
         }
-        xSpeed *= dashCurve.Evaluate(dashTime);
-        if (isCrash)
+        else if (isCrash)
         {
             dashTime = 0.1f;
         }
+        xSpeed *= dashCurve.Evaluate(dashTime);
         return xSpeed;
     }
 
@@ -171,9 +203,10 @@ public class Player : MonoBehaviour
   /// </summary>
     private void SetAnimation()
     {
-        anim.SetBool("RunOrJump", isRun);
+        anim.SetBool("RunOrJump", isRun &&! isOtherJump);
         anim.SetBool("ground", isGround);
     }
+
 
     #region//接触判定
     private void OnCollisionEnter2D(Collision2D collision)
@@ -194,13 +227,25 @@ public class Player : MonoBehaviour
                 /*/
                 if (p.point.y < judgePos)
                 {
-                    //もう一度はねる                    
+                    //もう一度はねる
+                    ObjectCollision o = collision.gameObject.GetComponent<ObjectCollision> (); 
+                    if(o != null) 
+                    {
+                        otherJumpHeight = o.boundHeight;//踏んづけたものからはねる高さを取得する
+                        o.playerStepOn = true;//踏んづけたものに対して踏んづけたかどうか？
+                        jumpPos = transform.position.y;//ジャンプした位置を記録する
+                        isOtherJump = true;
+                        isJump = false;
+                        jumpTime = 0.0f;
+                    }
                 }
                 else
                 {
                     //ここにダメージを食らった時の処理（アニメーション）を書いてください
+                    //もしライフが０だったときは↓、そうでないときはライフ残数を減らすように
                     isDown = true;
                     Debug.Log("ダウン状態だよ！");
+                    break;
                 }
             
             }    
