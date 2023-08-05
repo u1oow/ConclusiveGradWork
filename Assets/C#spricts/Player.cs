@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
 
 
     }
-
+    
     /// <summary>
     /// Y成分で必要な計算をし、速度を返す
     /// </summary>
@@ -221,10 +221,6 @@ public class Player : MonoBehaviour
 
             foreach (ContactPoint2D p in collision.contacts)
             {
-                /*/４５＃８；００の地点で止まっているから、また今度やろうと思う
-                 * というか、１１：２５回って眠いからお休みしようと思う
-                 * じゃあ、後はよろしく！！！！！！！！！！（ちょい跳ねの部分）
-                /*/
                 if (p.point.y < judgePos)
                 {
                     //もう一度はねる
@@ -254,4 +250,10 @@ public class Player : MonoBehaviour
         }
     }
     #endregion
+
+
+    public int GetHP()
+    {
+        return hp ;
+    }
 }
