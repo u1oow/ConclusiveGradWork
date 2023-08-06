@@ -263,6 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 154121113}
+  - component: {fileID: 154121117}
   - component: {fileID: 154121115}
   - component: {fileID: 154121116}
   m_Layer: 5
@@ -318,7 +319,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 20
+  m_Spacing: -600
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -326,6 +327,19 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!114 &154121117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154121112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd2ca52e5503fcc42ae5be1507597ee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerIcon: {fileID: 400744819431913400, guid: 054b11593dbd80c4994577ad7c491cb2, type: 3}
 --- !u!1 &195925835
 GameObject:
   m_ObjectHideFlags: 0
@@ -452,9 +466,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 6
   dashSpeed: 3
-  jumpSpeed: 8
+  jumpSpeed: 10
   jumpHeight: 6
-  jumpLimitTime: 1
+  jumpLimitTime: 0.3
   stepOnRate: 10
   ground: {fileID: 596866513}
   head: {fileID: 1949608522}
@@ -506,7 +520,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.16896453
     - serializedVersion: 3
-      time: 0.62
+      time: 0.32
       value: 0.02
       inSlope: -1.0474334
       outSlope: -0.1175862
@@ -526,6 +540,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  hp: 5
 --- !u!70 &195925840
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1431,6 +1446,7 @@ GameObject:
   - component: {fileID: 957518726}
   - component: {fileID: 957518725}
   - component: {fileID: 957518724}
+  - component: {fileID: 957518728}
   - component: {fileID: 957518727}
   m_Layer: 0
   m_Name: "\u4EEE\uFF1AbossAttack(ball)"
@@ -1555,6 +1571,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   boundHeight: 6
   playerStepOn: 0
+--- !u!114 &957518728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957518722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 333e4152b79115642bb2f291aceb2ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackPower: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

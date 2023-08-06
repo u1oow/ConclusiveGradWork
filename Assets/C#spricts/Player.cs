@@ -30,10 +30,14 @@ public class Player : MonoBehaviour
     private bool isRun = false;
     private bool isDown = false;
     private bool isOtherJump = false;
+    private bool attackedEnemy = false;//いじれば多分不要
     private float jumpPos = 0.0f;
     private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
     private float dashTime = 0.0f;
+
+    public int hp = 5;
+
     private string enemyTag = "Enemy";
     #endregion
     // Start is called before the first frame update
@@ -46,6 +50,13 @@ public class Player : MonoBehaviour
     }
 
     // Update is caled once per frame
+
+    private void Update()
+    {
+        Debug.Log(hp);
+        //Debug.Log(attackedEnemy);
+
+    }
     void FixedUpdate()
     {
         if (!isDown)
@@ -208,6 +219,23 @@ public class Player : MonoBehaviour
     }
 
 
+    #region//敵との接触
+    private void HitEnemy(GameObject Enemy)//副産物として、接触した敵と一度離れた状態にならないとダメージを再び食らわない仕様に
+    {
+        Debug.Log(attackedEnemy);
+        if (attackedEnemy)
+        {
+            //Debug.Log("敵に接触しました");
+            Enemy.GetComponent<Enemy>().PlayerDamage(this);
+            //敵に当たったらその敵にあたったことを通知
+            attackedEnemy = false;
+            //当たった判定の解除
+        }
+
+    }
+    #endregion
+
+
     #region//接触判定
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -237,21 +265,42 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    //ここにダメージを食らった時の処理（アニメーション）を書いてください
-                    //もしライフが０だったときは↓、そうでないときはライフ残数を減らすように
-                    isDown = true;
-                    Debug.Log("ダウン状態だよ！");
+                    attackedEnemy = true;//敵にあたった
+                    HitEnemy(collision.gameObject);//敵と接触した際に、ダメージ判定を呼ぶ
+                    
+                    if (hp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
+                    {
+                        isDown = true;
+                        Debug.Log("ダウン状態だよ！");
+                    }
+
+                    //ここにダメージを食らった時の処理（アニメーション）を書く
                     break;
                 }
             
             }    
-            Debug.Log("敵と接触した");
+            
 
         }
     }
     #endregion
 
+    /// <summary>
+    /// プレイヤーへのダメージで必要な計算をし、速度を返す
+    /// </summary>
+    /// <returns>プレイヤーダメージ</returns>
+     
+    public void Damage(int damage)
+    {
+        hp = Mathf.Max(hp - damage, 0);
+        //接触してきた敵から攻撃力を受け取る
+    }
 
+
+    /// <summary>
+    /// プレイヤーのHPで必要な計算をし、値を返す
+    /// </summary>
+    /// <returns>プレーヤーHP</returns>
     public int GetHP()
     {
         return hp ;
