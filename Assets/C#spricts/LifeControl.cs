@@ -9,7 +9,7 @@ public class LifeControl : MonoBehaviour
     private Player player;
     private int beforeHP;
     //private Animator anim = null;
-    private bool life = true;
+    //private bool life = true;
     #endregion
     // Start is called before the first frame update
     void Start()
@@ -41,6 +41,7 @@ public class LifeControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       //ShowHPIcon();
         /*/
         if(life)
         {
@@ -57,6 +58,7 @@ public class LifeControl : MonoBehaviour
     /// プレイヤーHPに応じたライフを表示する
     /// </summary>
     /// <returns>ライフ管理</returns>
+    
     /*/
     private void ShowHPIcon()
     {
@@ -66,12 +68,12 @@ public class LifeControl : MonoBehaviour
         for(int i =0;i < icons.Length; i++)
         {
             icons[i].gameObject.SetActive(i < player.GetHP());
-            life = false;
+            //life = false;
 
             //iの番号に応じて、順番にハートを出してくる
         }
         beforeHP = player.GetHP();
     }
+    
     /*/
-
 }

@@ -53,9 +53,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(hp);
+        //Debug.Log(isCrash);
+        //Debug.Log(hp);
         //Debug.Log(attackedEnemy);
-
+        //Debug.Log(isGround && !isCrash);
     }
     void FixedUpdate()
     {
@@ -198,7 +199,7 @@ public class Player : MonoBehaviour
         xSpeed = speed;
         if (isGround &&! isCrash)
         {
-            xSpeed += dashSpeed; 
+            xSpeed += dashSpeed;
             //地面に設置しているとき、ダッシュ速度が増加する
         }
         else if (isCrash)
@@ -222,10 +223,10 @@ public class Player : MonoBehaviour
     #region//敵との接触
     private void HitEnemy(GameObject Enemy)//副産物として、接触した敵と一度離れた状態にならないとダメージを再び食らわない仕様に
     {
-        Debug.Log(attackedEnemy);
+        //Debug.Log(attackedEnemy);
         if (attackedEnemy)
         {
-            //Debug.Log("敵に接触しました");
+            Debug.Log("敵に接触しました");
             Enemy.GetComponent<Enemy>().PlayerDamage(this);
             //敵に当たったらその敵にあたったことを通知
             attackedEnemy = false;
