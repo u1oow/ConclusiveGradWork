@@ -74,6 +74,6 @@ public class LifeControl : MonoBehaviour
         }
         beforeHP = player.GetHP();
     }
-    
     /*/
+    
 }
