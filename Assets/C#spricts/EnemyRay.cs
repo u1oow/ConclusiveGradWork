@@ -8,6 +8,8 @@ public class EnemyRay : MonoBehaviour
     [Header("移動速度")] public float speed;
     [Header("重力")] public float gravity;
     [Header("画面外でも行動するか")] public bool nonVisible;
+    [Header("接敵しているか")] public EnemyCheck rayEnemy;//
+
     #endregion
 
     #region//プライベート関数
@@ -16,11 +18,10 @@ public class EnemyRay : MonoBehaviour
     private SpriteRenderer sr = null;
 
     private bool isHit = false;//すでにプレイヤーにあったか
-    private bool isDamaged = false;//現在プレイヤーにあたっているか
+    private bool isEnemyRayDamaged = false;//現在プレイヤーにあたっているか
+
     private CircleCollider2D col = null;
     private ObjectCollision oc = null;
-
-    private string PlayerTag = "Player";
 
     #endregion
 
@@ -33,10 +34,15 @@ public class EnemyRay : MonoBehaviour
         col = GetComponent<CircleCollider2D>();
     }
 
+
+
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!isDamaged && !isHit)
+        isEnemyRayDamaged = rayEnemy.IsDamaged();
+        Debug.Log(isEnemyRayDamaged);
+        
+        if (!isEnemyRayDamaged)
         {
             if (sr.isVisible || nonVisible)
             {
@@ -57,13 +63,13 @@ public class EnemyRay : MonoBehaviour
                 rb.Sleep();
             }
         }
-        else if(!isHit)//もし初めてダメージを与えたら
+        else if (!isHit)//もし初めてダメージを与えたら
         {
             isHit = true;
-            isDamaged = false;
+            isEnemyRayDamaged = false;
             col.enabled = false;
-            //Debug.Log("コライダーの設定をなくしました");
-            Destroy(gameObject,3f);//3秒後、このゲームオブジェクトを消す
+            Debug.Log("コライダーの設定をなくしました");
+            Destroy(gameObject, 3f);//3秒後、このゲームオブジェクトを消す
         }
     }
 
@@ -72,14 +78,4 @@ public class EnemyRay : MonoBehaviour
      * ↳「トリガーにする」を設定に追加すると何とかなった。
      * ↳そうしたら今度はHPの減少がなくなってしまった。色々試してみたけど、行き詰まり。
     /*/
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //Debug.Log(collision.tag);
-        if (collision.tag == PlayerTag)
-        {
-            isDamaged = true;
-            Debug.Log("プレイヤーと接触しました");
-        }
-    }
-    
 }
