@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     [Header("重力")] public float gravity;//
     [Header("ダッシュの加速表現")] public AnimationCurve dashCurve;
     [Header("ジャンプの加速表現")] public AnimationCurve jumpCurve;
+    public bool attackedEnemy = false;//いじれば多分不要
     #endregion
 
     #region//プライベート変数
@@ -30,7 +31,9 @@ public class Player : MonoBehaviour
     private bool isRun = false;
     private bool isDown = false;
     private bool isOtherJump = false;
-    private bool attackedEnemy = false;//いじれば多分不要
+
+    private bool WheatherAttackedEnemy = false;
+
     private float jumpPos = 0.0f;
     private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
@@ -74,6 +77,11 @@ public class Player : MonoBehaviour
             float xSpeed = GetXSpeed();
 
             rb.velocity = new Vector2(xSpeed, ySpeed);
+
+            //Debug.Log(attackedEnemy);
+            attackedEnemy = WheatherAttackedEnemy;//今現在攻撃されているか
+            WheatherAttackedEnemy = false;//一旦攻撃されているかどうかリセット
+
             //Debug.Log(ySpeed);
             //Debug.Log(xSpeed);
         }
@@ -197,10 +205,12 @@ public class Player : MonoBehaviour
         float xSpeed = 0.0f;
         //アニメーションカーブを速度に適用
         xSpeed = speed;
+        Debug.Log(isGround);
         if (isGround &&! isCrash)
         {
             xSpeed += dashSpeed;
             //地面に設置しているとき、ダッシュ速度が増加する
+            
         }
         else if (isCrash)
         {
@@ -222,17 +232,12 @@ public class Player : MonoBehaviour
 
     #region//敵との接触
     private void HitEnemy(GameObject Enemy)//副産物として、接触した敵と一度離れた状態にならないとダメージを再び食らわない仕様に
-    {
-        //Debug.Log(attackedEnemy);
-        if (attackedEnemy)
-        {
+    { 
+        WheatherAttackedEnemy = true;//敵にあたった
             Debug.Log("敵に接触しました");
             Enemy.GetComponent<Enemy>().PlayerDamage(this);
-            //敵に当たったらその敵にあたったことを通知
-            attackedEnemy = false;
-            //当たった判定の解除
-        }
-
+        　　Enemy.GetComponent<EnemyRay>().ResearchWhoAttacked(this);
+        //敵に当たったらその敵にあたったことを通知
     }
     #endregion
 
@@ -266,7 +271,6 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    attackedEnemy = true;//敵にあたった
                     HitEnemy(collision.gameObject);//敵と接触した際に、ダメージ判定を呼ぶ
                     
                     if (hp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。

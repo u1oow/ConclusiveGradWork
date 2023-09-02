@@ -8,6 +8,13 @@ public class EnemyCheck : MonoBehaviour
     private bool isDamaged = true;
     private string playerTag = "Player";
     private bool isDamagedEnter, isDamagedStay, isDamagedExit;
+
+    /*/
+    private void Update()
+    {
+        Debug.Log(isDamaged);
+    }
+    /*/
     public bool IsDamaged()
     {
         isDamaged = false;
@@ -32,7 +39,7 @@ public class EnemyCheck : MonoBehaviour
         if (collision.tag == playerTag)
         {
             isDamagedEnter = true;
-            Debug.Log("プレイヤーと接触しました");
+            //Debug.Log("Pと接触しました");
         }
     }
 
@@ -51,7 +58,7 @@ public class EnemyCheck : MonoBehaviour
         if (collision.tag == playerTag)
         {
             isDamagedExit = true;
-            Debug.Log("Pが判定から出ました");
+            //Debug.Log("Pが判定から出ました");
 
         }
     }
