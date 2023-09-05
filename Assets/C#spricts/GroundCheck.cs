@@ -59,4 +59,8 @@ public class GroundCheck : MonoBehaviour
 
         }
     }
+
+    //リスポーンするとなぜかこのOnTrriger達が動かなくなってしまう。。。
+
+
 }

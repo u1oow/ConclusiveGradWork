@@ -17,7 +17,8 @@ public class Player : MonoBehaviour
     [Header("重力")] public float gravity;//
     [Header("ダッシュの加速表現")] public AnimationCurve dashCurve;
     [Header("ジャンプの加速表現")] public AnimationCurve jumpCurve;
-    public bool attackedEnemy = false;//いじれば多分不要
+    public bool attackedEnemy = false;
+    [Header("コースアウトしたかどうか")] public bool caurseOut;
     #endregion
 
     #region//プライベート変数
@@ -50,6 +51,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
         Debug.Log("Start");
+        //caurseOut = false//コースアウトしたかどうかを判定する変数。本来はRespawnPointから代入されるが、なぜかできていない。
     }
 
     // Update is caled once per frame
@@ -59,7 +61,7 @@ public class Player : MonoBehaviour
         //Debug.Log(isCrash);
         //Debug.Log(hp);
         //Debug.Log(attackedEnemy);
-        //Debug.Log(isGround && !isCrash);
+
     }
     void FixedUpdate()
     {
@@ -205,7 +207,7 @@ public class Player : MonoBehaviour
         float xSpeed = 0.0f;
         //アニメーションカーブを速度に適用
         xSpeed = speed;
-        Debug.Log(isGround);
+        //Debug.Log(isGround);
         if (isGround &&! isCrash)
         {
             xSpeed += dashSpeed;
