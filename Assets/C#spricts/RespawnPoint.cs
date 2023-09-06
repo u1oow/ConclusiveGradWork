@@ -7,8 +7,9 @@ public class RespawnPoint : MonoBehaviour
 {
 
     public GameObject respawnPoint;
-    private Vector3 trans;
+    public Vector3 trans;
     private bool fall = false;
+    private string objName;
 
     // Start is called before the first frame update
     void Start()
@@ -16,11 +17,26 @@ public class RespawnPoint : MonoBehaviour
         trans = respawnPoint.transform.position;
     }
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void Update()
     {
-        fall = true;
-        other.gameObject.transform.position = trans;
+        Debug.Log(trans);
     }
+    /*/
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        objName = other.gameObject.name;
+
+        Debug.Log(objName = "player");
+        
+        if (objName = "player")
+        {
+            Debug.Log("—Ž‰º‚µ‚Ä‚µ‚Ü‚¢‚Ü‚µ‚½");
+            other.gameObject.transform.position = trans;    fall = true;
+        
+        }
+        
+    }
+    /*/
 
 
     // Update is called once per frame
@@ -31,7 +47,7 @@ public class RespawnPoint : MonoBehaviour
         if (fall)
         {
             fall = false;
-            Debug.Log("—Ž‰º‚µ‚Ä‚µ‚Ü‚¢‚Ü‚µ‚½");
+            //Debug.Log("—Ž‰º‚µ‚Ä‚µ‚Ü‚¢‚Ü‚µ‚½");
             Player playerScript;
             GameObject obj = GameObject.Find("Player");
             playerScript = obj.GetComponent<Player>();

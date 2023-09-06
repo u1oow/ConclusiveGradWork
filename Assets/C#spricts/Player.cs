@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
     private bool isRun = false;
     private bool isDown = false;
     private bool isOtherJump = false;
+    private string respawnTag = "RespawnPoint";
 
     private bool WheatherAttackedEnemy = false;
 
@@ -44,12 +45,29 @@ public class Player : MonoBehaviour
 
     private string enemyTag = "Enemy";
     #endregion
+
+
+    //public GameObject respawnPoint;
+    private Vector3 startTrans;
+    //private bool fall = false;
+    private GameObject respawnPointer;//プレイヤーオブジェクトを取得する準備
+    RespawnPoint respawnScript;
+
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
+
+        respawnPointer = GameObject.Find("respawnPointer");
+        respawnScript = respawnPointer.GetComponent<RespawnPoint>();
+        startTrans = respawnScript.trans;
+        //なんだかこの代入がうまくいっていないのかな？
+
+
+        //trans = respawnPoint.transform.position;
+
         Debug.Log("Start");
         //caurseOut = false//コースアウトしたかどうかを判定する変数。本来はRespawnPointから代入されるが、なぜかできていない。
     }
@@ -311,5 +329,16 @@ public class Player : MonoBehaviour
     public int GetHP()
     {
         return hp ;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.tag == respawnTag)
+        {
+            Debug.Log("落下してしまいました");
+            this.gameObject.transform.position = startTrans;
+        }
+            
     }
 }
