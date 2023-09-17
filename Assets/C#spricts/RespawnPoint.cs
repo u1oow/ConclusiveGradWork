@@ -8,40 +8,31 @@ public class RespawnPoint : MonoBehaviour
 
     public GameObject respawnPoint;
     public Vector3 trans;
-    private bool fall = false;
-    private string objName;
+    public GameObject playerObject;//プレイヤーオブジェクトを取得する準備
+    //private string objName;
 
-    // Start is called before the first frame update
     void Start()
     {
         trans = respawnPoint.transform.position;
     }
-
-    private void Update()
+    public void FallPlayerWarper(Player player)
     {
-        Debug.Log(trans);
+        Debug.Log("落下してしまいました");
+        playerObject.gameObject.transform.position = trans;
+        return;
+        /*/objName = other.gameObject.name;
+        //if関数の中にstringを使う方法は知っているけど、要はないかな。
+         if (objName.Equals("player"))
+         {
+             Debug.Log("落下してしまいました");
+             other.gameObject.transform.position = trans;    
+         }
+         /*/
     }
+    
+
+    //落下したかどうかを変数で判定しようとこころむ→結局落下したときにメゾットを呼び出したほうが楽だと気付く
     /*/
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        objName = other.gameObject.name;
-
-        Debug.Log(objName = "player");
-        
-        if (objName = "player")
-        {
-            Debug.Log("落下してしまいました");
-            other.gameObject.transform.position = trans;    fall = true;
-        
-        }
-        
-    }
-    /*/
-
-
-    // Update is called once per frame
-
-    //落下したかどうかを変数で判定しようとこころむ・
     void FixedUpdate()
     {
         if (fall)
@@ -56,4 +47,6 @@ public class RespawnPoint : MonoBehaviour
 
     }
     //どうしてか上手に行っていないポイント。
+    //→今の僕なら言えるけど、.publicGameCbject player player;で忘れずアタッチすればいけそうな気もする
+    /*/
 }

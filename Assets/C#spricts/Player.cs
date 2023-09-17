@@ -1,27 +1,27 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    #region//ƒCƒ“ƒXƒyƒNƒ^[‚Åİ’è
-    [Header("‘¬“x")] public float speed;//
-    [Header("ƒ_ƒbƒVƒ…’†‚Ì‰Á‘¬")] public float dashSpeed;//
-    [Header("ƒWƒƒƒ“ƒv‘¬“x")] public float jumpSpeed;//
-    [Header("ƒWƒƒƒ“ƒv‚Ì‚‚³§ŒÀ")] public float jumpHeight;//
-    [Header("ƒWƒƒƒ“ƒv§ŒÀŠÔ")] public float jumpLimitTime;//
-    [Header("“¥‚İ‚Â‚¯”»’è‚Ì‚‚³‚ÌŠ„‡")]public float stepOnRate;//
-    [Header("Ú’n‚µ‚Ä‚¢‚é‚©")] public GroundCheck ground;//
-    [Header("“ª‚ğ‚Ô‚Â‚¯‚½”»’è")] public GroundCheck head;//
-    [Header("–Ú‚Ì‘O‚ÉáŠQ•¨‚ª‚ ‚é‚©‚Ì”»’è")] public GroundCheck crash;//
-    [Header("d—Í")] public float gravity;//
-    [Header("ƒ_ƒbƒVƒ…‚Ì‰Á‘¬•\Œ»")] public AnimationCurve dashCurve;
-    [Header("ƒWƒƒƒ“ƒv‚Ì‰Á‘¬•\Œ»")] public AnimationCurve jumpCurve;
+    #region//ã‚¤ãƒ³ã‚¹ãƒšã‚¯ã‚¿ãƒ¼ã§è¨­å®š
+    [Header("é€Ÿåº¦")] public float speed;//
+    [Header("ãƒ€ãƒƒã‚·ãƒ¥ä¸­ã®åŠ é€Ÿ")] public float dashSpeed;//
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—é€Ÿåº¦")] public float jumpSpeed;//
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—ã®é«˜ã•åˆ¶é™")] public float jumpHeight;//
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—åˆ¶é™æ™‚é–“")] public float jumpLimitTime;//
+    [Header("è¸ã¿ã¤ã‘åˆ¤å®šã®é«˜ã•ã®å‰²åˆ")]public float stepOnRate;//
+    [Header("æ¥åœ°ã—ã¦ã„ã‚‹ã‹")] public GroundCheck ground;//
+    [Header("é ­ã‚’ã¶ã¤ã‘ãŸåˆ¤å®š")] public GroundCheck head;//
+    [Header("ç›®ã®å‰ã«éšœå®³ç‰©ãŒã‚ã‚‹ã‹ã®åˆ¤å®š")] public GroundCheck crash;//
+    [Header("é‡åŠ›")] public float gravity;//
+    [Header("ãƒ€ãƒƒã‚·ãƒ¥ã®åŠ é€Ÿè¡¨ç¾")] public AnimationCurve dashCurve;
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—ã®åŠ é€Ÿè¡¨ç¾")] public AnimationCurve jumpCurve;
     public bool attackedEnemy = false;
-    [Header("ƒR[ƒXƒAƒEƒg‚µ‚½‚©‚Ç‚¤‚©")] public bool caurseOut;
+    [Header("ã‚³ãƒ¼ã‚¹ã‚¢ã‚¦ãƒˆã—ãŸã‹ã©ã†ã‹")] public bool caurseOut;
     #endregion
 
-    #region//ƒvƒ‰ƒCƒx[ƒg•Ï”
+    #region//ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆå¤‰æ•°
     private Animator anim = null;
     private Rigidbody2D rb = null;
     private CapsuleCollider2D capcol = null;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private bool isRun = false;
     private bool isDown = false;
     private bool isOtherJump = false;
-    private string respawnTag = "RespawnPoint";
+    private bool alreadyDamagedFall = false;//è½ä¸‹ã‹ã‚‰ãƒªã‚¹ãƒãƒ¼ãƒ³ã¾ã§ã®é–“ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’é£Ÿã‚‰ã£ãŸã‹
 
     private bool WheatherAttackedEnemy = false;
 
@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
 
     public int hp = 5;
 
+    private string respawnTag = "RespawnPoint";
     private string enemyTag = "Enemy";
     #endregion
 
@@ -50,7 +51,7 @@ public class Player : MonoBehaviour
     //public GameObject respawnPoint;
     private Vector3 startTrans;
     //private bool fall = false;
-    private GameObject respawnPointer;//ƒvƒŒƒCƒ„[ƒIƒuƒWƒFƒNƒg‚ğæ“¾‚·‚é€”õ
+    private GameObject respawnPointer;//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å–å¾—ã™ã‚‹æº–å‚™
     RespawnPoint respawnScript;
 
     // Start is called before the first frame update
@@ -60,35 +61,30 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
 
+        /*/
         respawnPointer = GameObject.Find("respawnPointer");
         respawnScript = respawnPointer.GetComponent<RespawnPoint>();
         startTrans = respawnScript.trans;
-        //‚È‚ñ‚¾‚©‚±‚Ì‘ã“ü‚ª‚¤‚Ü‚­‚¢‚Á‚Ä‚¢‚È‚¢‚Ì‚©‚ÈH
+        /*/
+
+        //ãªã‚“ã ã‹ã“ã®ä»£å…¥ãŒã†ã¾ãã„ã£ã¦ã„ãªã„ã®ã‹ãªï¼Ÿ
+        //â†³å¤šåˆ†ã†ã¾ãã„ã£ã¦ã„ã‚‹
 
 
         //trans = respawnPoint.transform.position;
 
         Debug.Log("Start");
-        //caurseOut = false//ƒR[ƒXƒAƒEƒg‚µ‚½‚©‚Ç‚¤‚©‚ğ”»’è‚·‚é•Ï”B–{—ˆ‚ÍRespawnPoint‚©‚ç‘ã“ü‚³‚ê‚é‚ªA‚È‚º‚©‚Å‚«‚Ä‚¢‚È‚¢B
+        //caurseOut = false//ã‚³ãƒ¼ã‚¹ã‚¢ã‚¦ãƒˆã—ãŸã‹ã©ã†ã‹ã‚’åˆ¤å®šã™ã‚‹å¤‰æ•°ã€‚æœ¬æ¥ã¯RespawnPointã‹ã‚‰ä»£å…¥ã•ã‚Œã‚‹ãŒã€ãªãœã‹ã§ãã¦ã„ãªã„ã€‚
     }
 
-    // Update is caled once per frame
-
-    private void Update()
-    {
-        //Debug.Log(isCrash);
-        //Debug.Log(hp);
-        //Debug.Log(attackedEnemy);
-
-    }
     void FixedUpdate()
     {
         if (!isDown)
         {
-            //ƒAƒjƒ[ƒVƒ‡ƒ“‚ğ“K—p
+            //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é©ç”¨
             SetAnimation();
 
-            //Ú’n”»’è‚ğó‚¯æ‚é
+            //æ¥åœ°åˆ¤å®šã‚’å—ã‘å–ã‚‹
             isGround = ground.IsGround();
             isHead = head.IsGround();
             isCrash = crash.IsGround();
@@ -99,8 +95,8 @@ public class Player : MonoBehaviour
             rb.velocity = new Vector2(xSpeed, ySpeed);
 
             //Debug.Log(attackedEnemy);
-            attackedEnemy = WheatherAttackedEnemy;//¡Œ»İUŒ‚‚³‚ê‚Ä‚¢‚é‚©
-            WheatherAttackedEnemy = false;//ˆê’UUŒ‚‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©ƒŠƒZƒbƒg
+            attackedEnemy = WheatherAttackedEnemy;//ä»Šç¾åœ¨æ”»æ’ƒã•ã‚Œã¦ã„ã‚‹ã‹
+            WheatherAttackedEnemy = false;//ä¸€æ—¦æ”»æ’ƒã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ãƒªã‚»ãƒƒãƒˆ
 
             //Debug.Log(ySpeed);
             //Debug.Log(xSpeed);
@@ -114,20 +110,20 @@ public class Player : MonoBehaviour
     }
     
     /// <summary>
-    /// Y¬•ª‚Å•K—v‚ÈŒvZ‚ğ‚µA‘¬“x‚ğ•Ô‚·
+    /// Yæˆåˆ†ã§å¿…è¦ãªè¨ˆç®—ã‚’ã—ã€é€Ÿåº¦ã‚’è¿”ã™
     /// </summary>
-    /// <returns>Y²‚Ì‘¬‚³</returns>
+    /// <returns>Yè»¸ã®é€Ÿã•</returns>
     private float GetYSpeed()
     {
         float ySpeed = -gravity;
         float VerticalKey = Input.GetAxis("Vertical");
-        //ãƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚Æ‚«ƒWƒƒƒ“ƒvƒ‚[ƒVƒ‡ƒ“‚ğ“K—p
+        //ä¸Šãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã¨ãã‚¸ãƒ£ãƒ³ãƒ—ãƒ¢ãƒ¼ã‚·ãƒ§ãƒ³ã‚’é©ç”¨
 
         if (isOtherJump)
         {
-            //Œ»İ‚Ì‚‚³‚ª”ò‚×‚é‚‚³‚æ‚è‰º‚©
+            //ç¾åœ¨ã®é«˜ã•ãŒé£›ã¹ã‚‹é«˜ã•ã‚ˆã‚Šä¸‹ã‹
             bool canHeight = jumpPos + otherJumpHeight > transform.position.y;
-            //ƒWƒƒƒ“ƒvŠÔ‚ª’·‚­‚È‚è‚·‚¬‚Ä‚È‚¢‚©
+            //ã‚¸ãƒ£ãƒ³ãƒ—æ™‚é–“ãŒé•·ããªã‚Šã™ãã¦ãªã„ã‹
             bool canTime = jumpLimitTime > jumpTime;
 
             if (canTime && canHeight && !isHead)
@@ -137,7 +133,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                //Debug.Log("ƒWƒƒƒ“ƒsƒ“ƒO‚Å‚«‚Ü‚¹‚ñ");
+                //Debug.Log("ã‚¸ãƒ£ãƒ³ãƒ”ãƒ³ã‚°ã§ãã¾ã›ã‚“");
                 isOtherJump = false;
                 jumpTime = 0;
             }
@@ -149,7 +145,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Œ»İ’n–Ê”»’è‚É‚ ‚è‚Ü‚·");
+            //Debug.Log("ç¾åœ¨åœ°é¢åˆ¤å®šã«ã‚ã‚Šã¾ã™");
             jumpTime = 0.0f;
         }
         if (isGround)
@@ -158,7 +154,7 @@ public class Player : MonoBehaviour
             {
                 isRun = false;
                 ySpeed = jumpSpeed;
-                jumpPos = transform.position.y;//ƒWƒƒƒ“ƒv‚µ‚½ˆÊ’u‚ğ‹L˜^‚·‚é
+                jumpPos = transform.position.y;//ã‚¸ãƒ£ãƒ³ãƒ—ã—ãŸä½ç½®ã‚’è¨˜éŒ²ã™ã‚‹
                 isJump = true;
                 jumpTime = 0.0f;
             }
@@ -171,11 +167,11 @@ public class Player : MonoBehaviour
         }
         else if (isJump)
         {
-            //ã•ûŒüƒL[‚ğ‚¨‚µ‚Ä‚¢‚é‚©
+            //ä¸Šæ–¹å‘ã‚­ãƒ¼ã‚’ãŠã—ã¦ã„ã‚‹ã‹
             bool pushUpKey = VerticalKey > 0;
-            //Œ»İ‚Ì‚‚³‚ª”ò‚×‚é‚‚³‚æ‚è‰º‚©
+            //ç¾åœ¨ã®é«˜ã•ãŒé£›ã¹ã‚‹é«˜ã•ã‚ˆã‚Šä¸‹ã‹
             bool canHeight = jumpPos + jumpHeight > transform.position.y;
-            //ƒWƒƒƒ“ƒvŠÔ‚ª’·‚­‚È‚è‚·‚¬‚Ä‚È‚¢‚©
+            //ã‚¸ãƒ£ãƒ³ãƒ—æ™‚é–“ãŒé•·ããªã‚Šã™ãã¦ãªã„ã‹
             bool canTime = jumpLimitTime > jumpTime;
 
             if (canTime && canHeight && !isHead)
@@ -192,13 +188,13 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("ƒWƒƒƒ“ƒsƒ“ƒO‚Å‚«‚Ü‚¹‚ñ");
+                    Debug.Log("ã‚¸ãƒ£ãƒ³ãƒ”ãƒ³ã‚°ã§ãã¾ã›ã‚“");
                     isJump = false;
                 }
             }
             else
             {
-                //Debug.Log("ƒWƒƒƒ“ƒsƒ“ƒO‚Å‚«‚Ü‚¹‚ñ");
+                //Debug.Log("ã‚¸ãƒ£ãƒ³ãƒ”ãƒ³ã‚°ã§ãã¾ã›ã‚“");
                 isJump = false;
             }
 
@@ -209,7 +205,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            //Debug.Log("Œ»İ’n–Ê”»’è‚É‚ ‚è‚Ü‚·");
+            //Debug.Log("ç¾åœ¨åœ°é¢åˆ¤å®šã«ã‚ã‚Šã¾ã™");
             jumpTime = 0.0f;
         }
         //Debug.Log(jumpTime);
@@ -217,19 +213,19 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// X¬•ª‚Å•K—v‚ÈŒvZ‚ğ‚µA‘¬“x‚ğ•Ô‚·
+    /// Xæˆåˆ†ã§å¿…è¦ãªè¨ˆç®—ã‚’ã—ã€é€Ÿåº¦ã‚’è¿”ã™
     /// </summary>
-    /// <returns>X²‚Ì‘¬‚³</returns>
+    /// <returns>Xè»¸ã®é€Ÿã•</returns>
     private float GetXSpeed()
     {
         float xSpeed = 0.0f;
-        //ƒAƒjƒ[ƒVƒ‡ƒ“ƒJ[ƒu‚ğ‘¬“x‚É“K—p
+        //ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã‚«ãƒ¼ãƒ–ã‚’é€Ÿåº¦ã«é©ç”¨
         xSpeed = speed;
         //Debug.Log(isGround);
         if (isGround &&! isCrash)
         {
             xSpeed += dashSpeed;
-            //’n–Ê‚Éİ’u‚µ‚Ä‚¢‚é‚Æ‚«Aƒ_ƒbƒVƒ…‘¬“x‚ª‘‰Á‚·‚é
+            //åœ°é¢ã«è¨­ç½®ã—ã¦ã„ã‚‹ã¨ãã€ãƒ€ãƒƒã‚·ãƒ¥é€Ÿåº¦ãŒå¢—åŠ ã™ã‚‹
             
         }
         else if (isCrash)
@@ -240,8 +236,8 @@ public class Player : MonoBehaviour
         return xSpeed;
     }
 
-@@/// <summary>
-  /// ƒAƒjƒ[ƒVƒ‡ƒ“‚Ü‚Æ‚ß
+ã€€ã€€/// <summary>
+  /// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ã¾ã¨ã‚
   /// </summary>
     private void SetAnimation()
     {
@@ -250,40 +246,97 @@ public class Player : MonoBehaviour
     }
 
 
-    #region//“G‚Æ‚ÌÚG
-    private void HitEnemy(GameObject Enemy)//•›Y•¨‚Æ‚µ‚ÄAÚG‚µ‚½“G‚Æˆê“x—£‚ê‚½ó‘Ô‚É‚È‚ç‚È‚¢‚Æƒ_ƒ[ƒW‚ğÄ‚ÑH‚ç‚í‚È‚¢d—l‚É
+    #region//æ•µã¨ã®æ¥è§¦ã€è½ä¸‹ã—ãŸéš›ã®æ¥è§¦ï¼ˆä¼¼ãŸã‚‚ã®åŒå£«ã¾ã¨ã‚ï¼‰
+    #region//æ•µã¨ã®æ¥è§¦
+    private void HitEnemy(GameObject Enemy)//å‰¯ç”£ç‰©ã¨ã—ã¦ã€æ¥è§¦ã—ãŸæ•µã¨ä¸€åº¦é›¢ã‚ŒãŸçŠ¶æ…‹ã«ãªã‚‰ãªã„ã¨ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å†ã³é£Ÿã‚‰ã‚ãªã„ä»•æ§˜ã«
     { 
-        WheatherAttackedEnemy = true;//“G‚É‚ ‚½‚Á‚½
-            Debug.Log("“G‚ÉÚG‚µ‚Ü‚µ‚½");
+        WheatherAttackedEnemy = true;//æ•µã«ã‚ãŸã£ãŸ
+        //if (GetComponent<Enemy>())
+        //{
             Enemy.GetComponent<Enemy>().PlayerDamage(this);
-        @@Enemy.GetComponent<EnemyRay>().ResearchWhoAttacked(this);
-        //“G‚É“–‚½‚Á‚½‚ç‚»‚Ì“G‚É‚ ‚½‚Á‚½‚±‚Æ‚ğ’Ê’m
+        //}
+        //if (GetComponent<EnemyRay>())
+        //{
+            Enemy.GetComponent<EnemyRay>().ResearchWhoAttacked(this);
+        //}
+
+        //ã‚²ãƒƒãƒˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã§ï¼ˆè½ä¸‹ç­‰ã§æ±‚ã‚ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒãªã„ã¨ãï¼‰Nullreferenceã¨ã‹ã„ã†ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã—ã¾ã†ã€‚
+
+        //æ•µã«å½“ãŸã£ãŸã‚‰ãã®æ•µã«ã‚ãŸã£ãŸã“ã¨ã‚’é€šçŸ¥
     }
     #endregion
 
+    #region//è½ä¸‹ã—ãŸéš›ã®æ¥è§¦
+    private void HitEnemyFall(GameObject Enemy)//å‰¯ç”£ç‰©ã¨ã—ã¦ã€æ¥è§¦ã—ãŸæ•µã¨ä¸€åº¦é›¢ã‚ŒãŸçŠ¶æ…‹ã«ãªã‚‰ãªã„ã¨ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å†ã³é£Ÿã‚‰ã‚ãªã„ä»•æ§˜ã«
+    {
+        alreadyDamagedFall = true;
+        WheatherAttackedEnemy = true;//æ•µã«ã‚ãŸã£ãŸ
+        Debug.Log(GetComponent<Enemy>());
+        //if (GetComponent<Enemy>())
+        //{
+        Enemy.GetComponent<Enemy>().PlayerDamage(this);
+        //}
+        Enemy.GetComponent<RespawnPoint>().FallPlayerWarper(this);
+                
+        //æ€è€ƒã—ãŸã“ã¨ï¼šã‚²ãƒƒãƒˆã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã§ï¼ˆè½ä¸‹ç­‰ã§æ±‚ã‚ãŸã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆãŒãªã„ã¨ãï¼‰Nullreferenceã¨ã‹ã„ã†ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¦ã—ã¾ã†ã€‚
+        //â†’ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å®£è¨€ã—ã¦ã€ãã“ã§ã‚¢ã‚¿ãƒƒãƒã™ã‚Œã°æ¡ˆå¤–ç°¡å˜ã«è¡Œã‘ãã†ã ã‘ã©ã­ã€‚
 
-    #region//ÚG”»’è
+    }
+    #endregion
+    #endregion
+
+    #region//æ¥è§¦åˆ¤å®š
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.tag == enemyTag)
+        if (isGround)
         {
-            //“¥‚İ‚Â‚¯”»’è‚É‚È‚é‚‚³
+            alreadyDamagedFall = false;//åœ°é¢ã«è§¦ã‚Œï¼ˆè½ä¸‹ã‹ã‚‰å¾©å¸°ã—ï¼‰ãŸã‚‰ã¾ãŸè½ä¸‹ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ã‚‹ã‚ˆã†ã«ã™ã‚‹
+        }
+         
+        if (collision.collider.tag == respawnTag)
+        {
+            //Debug.Log("è½ä¸‹ãƒ€ãƒ¡ãƒ¼ã‚¸å—ã‘ãŸã¿ãŸã„");
+
+            foreach (ContactPoint2D p in collision.contacts)
+            {
+                Debug.Log("è½ä¸‹ãƒ€ãƒ¡ãƒ¼ã‚¸å—ã‘ãŸã¿ãŸã„");
+                if (!alreadyDamagedFall)//2é‡ã§è½ä¸‹ãƒ€ãƒ¡ã‚’é£Ÿã‚‰ã†ãƒã‚°ãŒã‚ã£ãŸã€‚â†’ãƒªã‚¹ãƒãƒ¼ãƒ³ã¾ã§ã«1å›ã ã‘ãƒ€ãƒ¡ãƒ¼ã‚¸é£Ÿã‚‰ã†ã‚ˆã†ã«
+                {
+                    HitEnemyFall(collision.gameObject);//è½ä¸‹ã—ãŸéš›ã«ã€ãƒ€ãƒ¡ãƒ¼ã‚¸åˆ¤å®šã‚’å‘¼ã¶
+                }
+
+                if (hp <= 0)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãƒ€ã‚¦ãƒ³åˆ¤å®šã«ãªã‚‹ã®ã¯ã€æ•µã‹ã‚‰ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸç›´å¾Œã®ã¿ã€‚
+                {
+                    isDown = true;
+                    Debug.Log("ãƒ€ã‚¦ãƒ³çŠ¶æ…‹ã ã‚ˆï¼");
+                }
+
+                //ã“ã“ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’é£Ÿã‚‰ã£ãŸæ™‚ã®å‡¦ç†ï¼ˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ï¼‰ã‚’æ›¸ã
+                break;
+            }
+
+
+        }
+        else if (collision.collider.tag == enemyTag)
+        {
+            Debug.Log("æ•µã«æ”»æ’ƒã•ã‚ŒãŸã¿ãŸã„");
+            //è¸ã¿ã¤ã‘åˆ¤å®šã«ãªã‚‹é«˜ã•
             float stepOnHeight = (capcol.size.y * (stepOnRate / 100f));
 
-            //“¥‚İ‚Â‚¯”»’è‚Ìƒ[ƒ‹ƒhÀ•W
+            //è¸ã¿ã¤ã‘åˆ¤å®šã®ãƒ¯ãƒ¼ãƒ«ãƒ‰åº§æ¨™
             float judgePos = transform.position.y - (capcol.size.y / 2f) + stepOnHeight;
 
             foreach (ContactPoint2D p in collision.contacts)
             {
                 if (p.point.y < judgePos)
                 {
-                    //‚à‚¤ˆê“x‚Í‚Ë‚é
+                    //ã‚‚ã†ä¸€åº¦ã¯ã­ã‚‹
                     ObjectCollision o = collision.gameObject.GetComponent<ObjectCollision> (); 
                     if(o != null) 
                     {
-                        otherJumpHeight = o.boundHeight;//“¥‚ñ‚Ã‚¯‚½‚à‚Ì‚©‚ç‚Í‚Ë‚é‚‚³‚ğæ“¾‚·‚é
-                        o.playerStepOn = true;//“¥‚ñ‚Ã‚¯‚½‚à‚Ì‚É‘Î‚µ‚Ä“¥‚ñ‚Ã‚¯‚½‚©‚Ç‚¤‚©H
-                        jumpPos = transform.position.y;//ƒWƒƒƒ“ƒv‚µ‚½ˆÊ’u‚ğ‹L˜^‚·‚é
+                        otherJumpHeight = o.boundHeight;//è¸ã‚“ã¥ã‘ãŸã‚‚ã®ã‹ã‚‰ã¯ã­ã‚‹é«˜ã•ã‚’å–å¾—ã™ã‚‹
+                        o.playerStepOn = true;//è¸ã‚“ã¥ã‘ãŸã‚‚ã®ã«å¯¾ã—ã¦è¸ã‚“ã¥ã‘ãŸã‹ã©ã†ã‹ï¼Ÿ
+                        jumpPos = transform.position.y;//ã‚¸ãƒ£ãƒ³ãƒ—ã—ãŸä½ç½®ã‚’è¨˜éŒ²ã™ã‚‹
                         isOtherJump = true;
                         isJump = false;
                         jumpTime = 0.0f;
@@ -291,15 +344,15 @@ public class Player : MonoBehaviour
                 }
                 else
                 {
-                    HitEnemy(collision.gameObject);//“G‚ÆÚG‚µ‚½Û‚ÉAƒ_ƒ[ƒW”»’è‚ğŒÄ‚Ô
+                    HitEnemy(collision.gameObject);//æ•µã¨æ¥è§¦ã—ãŸéš›ã«ã€ãƒ€ãƒ¡ãƒ¼ã‚¸åˆ¤å®šã‚’å‘¼ã¶
                     
-                    if (hp <= 0)//ƒvƒŒƒCƒ„[‚ªƒ_ƒEƒ“”»’è‚É‚È‚é‚Ì‚ÍA“G‚©‚çƒ_ƒ[ƒW‚ğó‚¯‚½’¼Œã‚Ì‚İB
+                    if (hp <= 0)//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãƒ€ã‚¦ãƒ³åˆ¤å®šã«ãªã‚‹ã®ã¯ã€æ•µã‹ã‚‰ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸç›´å¾Œã®ã¿ã€‚
                     {
                         isDown = true;
-                        Debug.Log("ƒ_ƒEƒ“ó‘Ô‚¾‚æI");
+                        Debug.Log("ãƒ€ã‚¦ãƒ³çŠ¶æ…‹ã ã‚ˆï¼");
                     }
 
-                    //‚±‚±‚Éƒ_ƒ[ƒW‚ğH‚ç‚Á‚½‚Ìˆ—iƒAƒjƒ[ƒVƒ‡ƒ“j‚ğ‘‚­
+                    //ã“ã“ã«ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’é£Ÿã‚‰ã£ãŸæ™‚ã®å‡¦ç†ï¼ˆã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³ï¼‰ã‚’æ›¸ã
                     break;
                 }
             
@@ -307,38 +360,44 @@ public class Player : MonoBehaviour
             
 
         }
+        
     }
     #endregion
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚Ö‚Ìƒ_ƒ[ƒW‚Å•K—v‚ÈŒvZ‚ğ‚µA‘¬“x‚ğ•Ô‚·
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®ãƒ€ãƒ¡ãƒ¼ã‚¸ã§å¿…è¦ãªè¨ˆç®—ã‚’ã—ã€é€Ÿåº¦ã‚’è¿”ã™
     /// </summary>
-    /// <returns>ƒvƒŒƒCƒ„[ƒ_ƒ[ƒW</returns>
+    /// <returns>ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ€ãƒ¡ãƒ¼ã‚¸</returns>
      
     public void Damage(int damage)
     {
         hp = Mathf.Max(hp - damage, 0);
-        //ÚG‚µ‚Ä‚«‚½“G‚©‚çUŒ‚—Í‚ğó‚¯æ‚é
+        //æ¥è§¦ã—ã¦ããŸæ•µã‹ã‚‰æ”»æ’ƒåŠ›ã‚’å—ã‘å–ã‚‹
     }
 
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ÌHP‚Å•K—v‚ÈŒvZ‚ğ‚µA’l‚ğ•Ô‚·
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®HPã§å¿…è¦ãªè¨ˆç®—ã‚’ã—ã€å€¤ã‚’è¿”ã™
     /// </summary>
-    /// <returns>ƒvƒŒ[ƒ„[HP</returns>
+    /// <returns>ãƒ—ãƒ¬ãƒ¼ãƒ¤ãƒ¼HP</returns>
     public int GetHP()
     {
         return hp ;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /*/
+    void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (collision.tag == respawnTag)
+        if (other.tag == respawnTag)
         {
-            Debug.Log("—‰º‚µ‚Ä‚µ‚Ü‚¢‚Ü‚µ‚½");
+            Debug.Log("è½ä¸‹ã—ã¦ã—ã¾ã„ã¾ã—ãŸ");
+            Debug.Log(startTrans);
             this.gameObject.transform.position = startTrans;
+
+
         }
             
     }
+    /*/
 }
