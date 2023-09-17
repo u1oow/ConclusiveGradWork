@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField, Header("攻撃力")] private int attackPower;
-    [SerializeField, Header("加算するスコア")] private int myScore;
+    //[SerializeField, Header("加算するスコア")] private int myScore;
 
     public void PlayerDamage(Player player)
     {
