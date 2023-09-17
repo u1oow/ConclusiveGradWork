@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     private Animator anim = null;
     private Rigidbody2D rb = null;
     private CapsuleCollider2D capcol = null;
+    private SpriteRenderer sr = null;
     private bool isGround = false;
     private bool isHead = false;
     private bool isCrash = false;
@@ -33,9 +34,10 @@ public class Player : MonoBehaviour
     private bool isDown = false;
     private bool isOtherJump = false;
     private bool alreadyDamagedFall = false;//落下からリスポーンまでの間にダメージを食らったか
-
     private bool WheatherAttackedEnemy = false;
-
+    private bool isContinue = false;
+    private float continueTime = 0.0f;
+    private float blinkTime = 0.0f;
     private float jumpPos = 0.0f;
     private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
+        sr = GetComponent<SpriteRenderer>();
 
         /*/
         respawnPointer = GameObject.Find("respawnPointer");
@@ -77,6 +80,48 @@ public class Player : MonoBehaviour
         //caurseOut = false//コースアウトしたかどうかを判定する変数。本来はRespawnPointから代入されるが、なぜかできていない。
     }
 
+    private void Update()
+    {
+        if (WheatherAttackedEnemy)
+        {
+            isContinue = true;
+        }
+
+        if (isContinue)
+        {
+            //明滅ついている時の戻る
+            if (blinkTime > 0.2f)
+            {
+                sr.enabled = true;
+                blinkTime = 0.0f;
+            }
+            //明滅消えている時
+            else if (blinkTime > 0.1f)
+            {
+                sr.enabled = false;
+            }
+            //明滅ついている時
+            else
+            {
+                sr.enabled = true;
+            }
+
+            if (continueTime > 1.0f)
+            {
+                isContinue = false;
+                blinkTime = 0.0f;
+                continueTime = 0.0f;
+                sr.enabled = true;
+            }
+            else
+            {
+                blinkTime += Time.deltaTime;
+                continueTime += Time.deltaTime;
+            }
+        }
+
+
+    }
     void FixedUpdate()
     {
         if (!isDown)
