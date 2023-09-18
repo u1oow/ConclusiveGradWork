@@ -10,7 +10,8 @@ public class Player : MonoBehaviour
     [Header("ジャンプ速度")] public float jumpSpeed;//
     [Header("ジャンプの高さ制限")] public float jumpHeight;//
     [Header("ジャンプ制限時間")] public float jumpLimitTime;//
-    [Header("踏みつけ判定の高さの割合")]public float stepOnRate;//
+    [Header("踏みつけ判定の高さの割合")] public float stepOnRate;//
+    //[Header("プレイヤーHP")] public int hp = 5;
     [Header("接地しているか")] public GroundCheck ground;//
     [Header("頭をぶつけた判定")] public GroundCheck head;//
     [Header("目の前に障害物があるかの判定")] public GroundCheck crash;//
@@ -31,7 +32,7 @@ public class Player : MonoBehaviour
     private bool isCrash = false;
     private bool isJump = false;
     private bool isRun = false;
-    private bool isDown = false;
+    //private bool isDown = false;
     private bool isOtherJump = false;
     private bool alreadyDamagedFall = false;//落下からリスポーンまでの間にダメージを食らったか
     private bool WheatherAttackedEnemy = false;
@@ -42,8 +43,7 @@ public class Player : MonoBehaviour
     private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
     private float dashTime = 0.0f;
-
-    public int hp = 5;
+    private int getHp = 0;
 
     private string respawnTag = "RespawnPoint";
     private string enemyTag = "Enemy";
@@ -59,6 +59,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        GameManager.instance.defaultHeartNum = GameManager.instance.playerHp;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
@@ -124,8 +125,16 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (!isDown)
+        if (!GameManager.instance.isGameOver)
         {
+            
+             GameManager.instance.playerHp += getHp;
+             
+            if (GameManager.instance.playerHp > GameManager.instance.defaultHeartNum)
+            { 
+                  GameManager.instance.playerHp = GameManager.instance.defaultHeartNum;//初期HPをHPが上回ったらHPを初期HPに設定する
+            }
+            
             //アニメーションを適用
             SetAnimation();
 
@@ -333,7 +342,7 @@ public class Player : MonoBehaviour
     #region//接触判定
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isGround)
+        if (alreadyDamagedFall && isGround)
         {
             alreadyDamagedFall = false;//地面に触れ（落下から復帰し）たらまた落下ダメージを受けるようにする
         }
@@ -350,9 +359,9 @@ public class Player : MonoBehaviour
                     HitEnemyFall(collision.gameObject);//落下した際に、ダメージ判定を呼ぶ
                 }
 
-                if (hp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
+                if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
                 {
-                    isDown = true;
+                    GameManager.instance.isGameOver = true;
                     Debug.Log("ダウン状態だよ！");
                 }
 
@@ -391,10 +400,11 @@ public class Player : MonoBehaviour
                 {
                     HitEnemy(collision.gameObject);//敵と接触した際に、ダメージ判定を呼ぶ
                     
-                    if (hp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
+                    if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
                     {
-                        isDown = true;
+                        GameManager.instance.isGameOver = true;
                         Debug.Log("ダウン状態だよ！");
+                        
                     }
 
                     //ここにダメージを食らった時の処理（アニメーション）を書く
@@ -416,7 +426,7 @@ public class Player : MonoBehaviour
      
     public void Damage(int damage)
     {
-        hp = Mathf.Max(hp - damage, 0);
+        GameManager.instance.playerHp = Mathf.Max(GameManager.instance.playerHp - damage, 0);
         //接触してきた敵から攻撃力を受け取る
     }
 
@@ -425,10 +435,6 @@ public class Player : MonoBehaviour
     /// プレイヤーのHPで必要な計算をし、値を返す
     /// </summary>
     /// <returns>プレーヤーHP</returns>
-    public int GetHP()
-    {
-        return hp ;
-    }
 
     /*/
     void OnTriggerEnter2D(Collider2D other)

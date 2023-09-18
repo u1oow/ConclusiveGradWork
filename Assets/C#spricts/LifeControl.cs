@@ -16,7 +16,7 @@ public class LifeControl : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
-        beforeHP = player.GetHP();
+        beforeHP = GameManager.instance.playerHp;
         CreateHPIcon();
 
         //anim = GetComponent<Animator>();
@@ -30,7 +30,7 @@ public class LifeControl : MonoBehaviour
     /// <returns>ライフ接置</returns>
     private void CreateHPIcon()
     {
-        for(int i = 0;i < player.GetHP(); i++)
+        for(int i = 0;i < GameManager.instance.playerHp; i++)
         {
             GameObject playerHPObj = Instantiate(playerIcon);
             playerHPObj.transform.parent = transform;
@@ -42,18 +42,7 @@ public class LifeControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       ShowHPIcon();
-        
-        /*/
-        if(life)
-        {
-            //anim.SetBool("LifeOn",true );
-        }
-        else
-        {
-            //anim.SetBool("LifeOn",false);
-        }
-        /*/
+       ShowHPIcon();       
     }
 
     /// <summary>
@@ -63,16 +52,16 @@ public class LifeControl : MonoBehaviour
     
     private void ShowHPIcon()
     {
-        if (beforeHP == player.GetHP()) return;
-
+        if (beforeHP == GameManager.instance.playerHp) return;
+        Debug.Log("ライフの表示が変更されました");
         Image[] icons = transform.GetComponentsInChildren<Image>();
-        for(int i =0;i < icons.Length; i++)
+        
+        for (int i =0;i < icons.Length; i++)
         {
-            icons[i].gameObject.SetActive(i < player.GetHP());
+            icons[i].gameObject.SetActive(i < GameManager.instance.playerHp);
             //life = false;
-
             //iの番号に応じて、順番にハートを出してくる
         }
-        beforeHP = player.GetHP();
+        beforeHP = GameManager.instance.playerHp;
     }
 }

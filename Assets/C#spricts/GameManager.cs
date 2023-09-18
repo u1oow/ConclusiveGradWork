@@ -5,11 +5,14 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    public int score;
-    public int stageNum;
-    public int continueNum;
+    [Header("現在のスコア")] public int score;
+    [Header("現在のステージ番号")] public int stageNum;
+    [Header("初期HP")] public int defaultHeartNum;
+    [Header("プレイヤーのHP,HP変更するならこっち")] public int playerHp;
+    //[Header("")] public int continueNum;
+    [HideInInspector] public bool isGameOver;
 
-    //データにアクセスするコード：GameManager.instance.score += ...;
+    //データにアクセスするコード：GameManager.instance.playerHp += ...;
 
     private void Awake()
     {

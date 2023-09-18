@@ -16,7 +16,7 @@ public class BlackLifeControl : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
-        beforeHP = player.GetHP();
+        beforeHP = GameManager.instance.playerHp;
         CreateHPIcon();
 
         //anim = GetComponent<Animator>();
@@ -30,7 +30,7 @@ public class BlackLifeControl : MonoBehaviour
     /// <returns>ÉâÉCÉtê⁄íu</returns>
     private void CreateHPIcon()
     {
-        for (int i = 0; i < player.GetHP(); i++)
+        for (int i = 0; i < GameManager.instance.playerHp; i++)
         {
             GameObject playerHPObj = Instantiate(playerIcon);
             playerHPObj.transform.parent = transform;
