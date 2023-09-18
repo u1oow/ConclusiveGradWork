@@ -40,7 +40,7 @@ public class LifeControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
        ShowHPIcon();       
     }
