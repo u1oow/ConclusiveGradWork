@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Title : MonoBehaviour
 {
+    [Header("フェード")] public FadeImage fade;
     public bool firstPush = false;
+    private bool goNextScene = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +25,10 @@ public class Title : MonoBehaviour
 
             //次に移る命令を書く
 
+            fade.StartFadeOut();
+
+            SceneManager.LoadScene("stage1");
+
             firstPush = true;
         }
     }
@@ -29,6 +36,11 @@ public class Title : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!goNextScene && fade.IsFadeOutComplete()) 
+        {
+            SceneManager.LoadScene("stage1");
+            goNextScene = true;
+        }
 
     }
 

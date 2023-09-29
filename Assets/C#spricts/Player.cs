@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     private float otherJumpHeight = 0.0f;
     private float jumpTime = 0.0f;
     private float dashTime = 0.0f;
-    private int getHp = 0;
+    //private int getHp = 0;
 
     private string respawnTag = "RespawnPoint";
     private string enemyTag = "Enemy";
@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GameManager.instance.defaultHeartNum = GameManager.instance.playerHp;
+        GameManager.instance.playerHp =GameManager.instance.defaultHeartNum;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         capcol = GetComponent<CapsuleCollider2D>();
@@ -128,12 +128,7 @@ public class Player : MonoBehaviour
         if (!GameManager.instance.isGameOver)
         {
             
-             GameManager.instance.playerHp += getHp;
-             
-            if (GameManager.instance.playerHp > GameManager.instance.defaultHeartNum)
-            { 
-                  GameManager.instance.playerHp = GameManager.instance.defaultHeartNum;//初期HPをHPが上回ったらHPを初期HPに設定する
-            }
+             //GameManager.instance.playerHp += getHp;
             
             //アニメーションを適用
             SetAnimation();
@@ -317,6 +312,9 @@ public class Player : MonoBehaviour
         //ゲットコンポーネントで（落下等で求めたコンポーネントがないとき）Nullreferenceとかいうエラーが発生してしまう。
 
         //敵に当たったらその敵にあたったことを通知
+
+        IsPlayerDown();
+
     }
     #endregion
 
@@ -331,12 +329,21 @@ public class Player : MonoBehaviour
         Enemy.GetComponent<Enemy>().PlayerDamage(this);
         //}
         Enemy.GetComponent<RespawnPoint>().FallPlayerWarper(this);
-                
+
         //思考したこと：ゲットコンポーネントで（落下等で求めたコンポーネントがないとき）Nullreferenceとかいうエラーが発生してしまう。
         //→ゲームオブジェクトを宣言して、そこでアタッチすれば案外簡単に行けそうだけどね。
 
+        IsPlayerDown();
     }
     #endregion
+    private void IsPlayerDown()
+    {
+        if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
+        {
+            GameManager.instance.isGameOver = true;
+            Debug.Log("ダウン状態だよ！");
+        }
+    }
     #endregion
 
     #region//接触判定
@@ -357,12 +364,6 @@ public class Player : MonoBehaviour
                 if (!alreadyDamagedFall)//2重で落下ダメを食らうバグがあった。→リスポーンまでに1回だけダメージ食らうように
                 {
                     HitEnemyFall(collision.gameObject);//落下した際に、ダメージ判定を呼ぶ
-                }
-
-                if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
-                {
-                    GameManager.instance.isGameOver = true;
-                    Debug.Log("ダウン状態だよ！");
                 }
 
                 //ここにダメージを食らった時の処理（アニメーション）を書く
@@ -399,13 +400,6 @@ public class Player : MonoBehaviour
                 else
                 {
                     HitEnemy(collision.gameObject);//敵と接触した際に、ダメージ判定を呼ぶ
-                    
-                    if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
-                    {
-                        GameManager.instance.isGameOver = true;
-                        Debug.Log("ダウン状態だよ！");
-                        
-                    }
 
                     //ここにダメージを食らった時の処理（アニメーション）を書く
                     break;

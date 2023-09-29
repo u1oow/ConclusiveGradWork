@@ -53,9 +53,8 @@ public class LifeControl : MonoBehaviour
     private void ShowHPIcon()
     {
         if (beforeHP == GameManager.instance.playerHp) return;
-        Debug.Log("ライフの表示が変更されました");
         Image[] icons = transform.GetComponentsInChildren<Image>();
-        
+
         for (int i =0;i < icons.Length; i++)
         {
             icons[i].gameObject.SetActive(i < GameManager.instance.playerHp);
@@ -63,5 +62,7 @@ public class LifeControl : MonoBehaviour
             //iの番号に応じて、順番にハートを出してくる
         }
         beforeHP = GameManager.instance.playerHp;
+
+        Debug.Log(icons.Length);
     }
 }

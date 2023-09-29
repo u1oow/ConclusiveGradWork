@@ -16,6 +16,12 @@ public class HPItem : MonoBehaviour
             if (GameManager.instance != null)
             {
                 GameManager.instance.playerHp += myGetHp;
+
+                if (GameManager.instance.playerHp > GameManager.instance.defaultHeartNum)
+                {
+                    GameManager.instance.playerHp = GameManager.instance.defaultHeartNum;//‰ŠúHP‚ğHP‚ªã‰ñ‚Á‚½‚çHP‚ğ‰ŠúHP‚Éİ’è‚·‚é
+                }
+
                 Destroy(this.gameObject);
             }
 
