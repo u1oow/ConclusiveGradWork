@@ -328,15 +328,15 @@ public class Player : MonoBehaviour
         //{
         Enemy.GetComponent<Enemy>().PlayerDamage(this);
         //}
-        Enemy.GetComponent<RespawnPoint>().FallPlayerWarper(this);
-
         //思考したこと：ゲットコンポーネントで（落下等で求めたコンポーネントがないとき）Nullreferenceとかいうエラーが発生してしまう。
         //→ゲームオブジェクトを宣言して、そこでアタッチすれば案外簡単に行けそうだけどね。
 
-        IsPlayerDown();
+        IsPlayerDown();//プレイヤーのHPが0を下回ったかどうか（ダウン状態かどうか）
+
+        Enemy.GetComponent<RespawnPoint>().FallPlayerWarper(this);//
     }
     #endregion
-    private void IsPlayerDown()
+    private void IsPlayerDown()//ダウン状態でないのなら、プレイヤーをワープさせる。
     {
         if (GameManager.instance.playerHp <= 0)//プレイヤーがダウン判定になるのは、敵からダメージを受けた直後のみ。
         {

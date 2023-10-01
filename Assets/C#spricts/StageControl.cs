@@ -24,6 +24,7 @@ public class StageControl : MonoBehaviour
         if(playerObj != null && continuePoint != null && gameOverObj != null && fade != null)
         {
             gameOverObj.SetActive(false);
+            playerObj.SetActive(true);
 
             playerObj.transform.position = continuePoint.transform.position;
             p = playerObj.GetComponent <Player>();
@@ -41,17 +42,26 @@ public class StageControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        
+
         //ゲームオーバーの時の処理
-        if(GameManager.instance.isGameOver && !doGameOver)
+        if (GameManager.instance.isGameOver && !doGameOver)
         {
+            playerObj.SetActive(false);//ゲームオーバーでぱっと消えるのも変かもしれん
             gameOverObj.SetActive(true);
             doGameOver = true;
         }
 
         if (fade != null&& startFade && !doSceneCharge)
         {
+            Debug.Log("フェード");
+            Debug.Log(retryGame);
+
             if (fade.IsFadeOutComplete())
             {
+                Debug.Log("フェード完了");
+
                 if (retryGame)
                 {
                     GameManager.instance.RetryGame();
@@ -60,10 +70,14 @@ public class StageControl : MonoBehaviour
                 {
                     GameManager.instance.stageNum = nextStageNum;
                 }
-            }
 
-            SceneManager.LoadScene("stage" + nextStageNum);//シーン移動はここからやってもろて
-            doSceneCharge = true;
+                SceneManager.LoadScene("stage" + nextStageNum);//シーン移動はここからやってもろて
+                doSceneCharge = true;
+            }
+            else
+            {
+                Debug.Log("フェード失敗");
+            }
         }
     }
 
@@ -74,7 +88,7 @@ public class StageControl : MonoBehaviour
     {
         ChangeScene(1);
         retryGame = true;
-
+        Debug.Log(nextStageNum);
     }
 
     public void ChangeScene(int num)

@@ -134,12 +134,13 @@ public class FadeImage : MonoBehaviour
 
     private void FadeOutComplete()
     {
-        img.color = new Color(1, 1, 1, 0);
+        img.color = new Color(1, 1, 1, 1);
         img.fillAmount = 1;
         img.raycastTarget = false;
         timer = 0.0f;
         fadeOut = false;
         compFadeOut = true;
+        Debug.Log("compFadeOut‚ªtrue‚É‚È‚è‚Ü‚µ‚½");
     }
 
 }

@@ -18,7 +18,11 @@ public class RespawnPoint : MonoBehaviour
     public void FallPlayerWarper(Player player)
     {
         Debug.Log("落下してしまいました");
-        playerObject.gameObject.transform.position = trans;
+
+        if(!GameManager.instance.isGameOver)
+        {
+            playerObject.gameObject.transform.position = trans;
+        }
         return;
         /*/objName = other.gameObject.name;
         //if関数の中にstringを使う方法は知っているけど、要はないかな。

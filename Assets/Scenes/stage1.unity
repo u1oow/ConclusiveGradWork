@@ -348,7 +348,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 500463337811212875, guid: c1f20831931ffed43af8a2eed180b507, type: 3}
       propertyPath: attackPower
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 786863629805487934, guid: c1f20831931ffed43af8a2eed180b507, type: 3}
       propertyPath: m_Sprite
@@ -1219,7 +1219,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 500463337811212875, guid: c1f20831931ffed43af8a2eed180b507, type: 3}
       propertyPath: attackPower
-      value: 5
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 786863629805487934, guid: c1f20831931ffed43af8a2eed180b507, type: 3}
       propertyPath: m_Sprite
@@ -2716,8 +2716,8 @@ PolygonCollider2D:
     m_Paths:
     - - {x: 9, y: -10}
       - {x: 30, y: -10}
-      - {x: 30, y: -28}
-      - {x: 60, y: -28}
+      - {x: 30, y: -15}
+      - {x: 60, y: -15}
       - {x: 60, y: 4}
       - {x: -23, y: 4}
       - {x: -23, y: -4}
@@ -4152,6 +4152,10 @@ PrefabInstance:
       propertyPath: playerObj
       value: 
       objectReference: {fileID: 195925835}
+    - target: {fileID: 4673221353439045765, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
+      propertyPath: attackPower
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6762060369972365900, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -4164,6 +4168,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 963194227}
+    - target: {fileID: 7963116629750818520, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4370,6 +4378,10 @@ PrefabInstance:
     - target: {fileID: 6787494505125808402, guid: cad5eba4be8e7fb44b2f38b539e13372, type: 3}
       propertyPath: playerHp
       value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6787494505125808402, guid: cad5eba4be8e7fb44b2f38b539e13372, type: 3}
+      propertyPath: stageNum
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6787494505125808402, guid: cad5eba4be8e7fb44b2f38b539e13372, type: 3}
       propertyPath: defaultHeartNum

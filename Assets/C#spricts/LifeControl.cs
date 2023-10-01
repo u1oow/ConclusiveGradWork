@@ -63,6 +63,6 @@ public class LifeControl : MonoBehaviour
         }
         beforeHP = GameManager.instance.playerHp;
 
-        Debug.Log(icons.Length);
+        //Debug.Log(icons.Length);
     }
 }
