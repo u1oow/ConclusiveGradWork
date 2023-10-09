@@ -86,9 +86,10 @@ public class StageControl : MonoBehaviour
     /// </summary>
     public void Retry()
     {
-        ChangeScene(1);
+        ChangeScene(GameManager.instance.stageNum);
         retryGame = true;
-        Debug.Log(nextStageNum);
+        Debug.Log(GameManager.instance.stageNum);
+        Debug.Log(fade != null && startFade && !doSceneCharge);
     }
 
     public void ChangeScene(int num)

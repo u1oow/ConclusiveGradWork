@@ -18,8 +18,8 @@ public class Player : MonoBehaviour
     [Header("重力")] public float gravity;//
     [Header("ダッシュの加速表現")] public AnimationCurve dashCurve;
     [Header("ジャンプの加速表現")] public AnimationCurve jumpCurve;
-    public bool attackedEnemy = false;
-    [Header("コースアウトしたかどうか")] public bool caurseOut;
+    [HideInInspector]public bool attackedEnemy = false;
+    [HideInInspector] public bool caurseOut;
     #endregion
 
     #region//プライベート変数

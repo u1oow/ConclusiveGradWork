@@ -4058,11 +4058,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3096340318842700720, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3096340318842700720, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -453
+      value: -450
       objectReference: {fileID: 0}
     - target: {fileID: 3204366752287807439, guid: c328c8a8b0fbd35458593b86d065812c, type: 3}
       propertyPath: m_RootOrder
