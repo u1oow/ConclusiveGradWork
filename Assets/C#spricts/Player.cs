@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb = null;
     private CapsuleCollider2D capcol = null;
     private SpriteRenderer sr = null;
+    private Component eg = null;
     private bool isGround = false;
     private bool isHead = false;
     private bool isCrash = false;
@@ -51,10 +52,10 @@ public class Player : MonoBehaviour
 
 
     //public GameObject respawnPoint;
-    private Vector3 startTrans;
+    //private Vector3 startTrans;
     //private bool fall = false;
-    private GameObject respawnPointer;//プレイヤーオブジェクトを取得する準備
-    RespawnPoint respawnScript;
+    //private GameObject respawnPointer;//プレイヤーオブジェクトを取得する準備
+    //RespawnPoint respawnScript;
 
     // Start is called before the first frame update
     void Start()
@@ -300,14 +301,19 @@ public class Player : MonoBehaviour
     private void HitEnemy(GameObject Enemy)//副産物として、接触した敵と一度離れた状態にならないとダメージを再び食らわない仕様に
     { 
         WheatherAttackedEnemy = true;//敵にあたった
-        //if (GetComponent<Enemy>())
-        //{
+        eg = Enemy.GetComponent<Enemy>();
+        Debug.Log(eg);
+        if (eg != null)
+        {
             Enemy.GetComponent<Enemy>().PlayerDamage(this);
-        //}
-        //if (GetComponent<EnemyRay>())
-        //{
+        }
+        eg = Enemy.GetComponent<EnemyRay>();
+        Debug.Log(eg);
+        if (eg != null)
+        {
             Enemy.GetComponent<EnemyRay>().ResearchWhoAttacked(this);
-        //}
+        }
+        eg = null;
 
         //ゲットコンポーネントで（落下等で求めたコンポーネントがないとき）Nullreferenceとかいうエラーが発生してしまう。
 
@@ -323,11 +329,12 @@ public class Player : MonoBehaviour
     {
         alreadyDamagedFall = true;
         WheatherAttackedEnemy = true;//敵にあたった
-        Debug.Log(GetComponent<Enemy>());
-        //if (GetComponent<Enemy>())
-        //{
-        Enemy.GetComponent<Enemy>().PlayerDamage(this);
-        //}
+        eg = Enemy.GetComponent<Enemy>();
+        if (eg != null)
+        {
+            Enemy.GetComponent<Enemy>().PlayerDamage(this);
+        }
+        eg = null;
         //思考したこと：ゲットコンポーネントで（落下等で求めたコンポーネントがないとき）Nullreferenceとかいうエラーが発生してしまう。
         //→ゲームオブジェクトを宣言して、そこでアタッチすれば案外簡単に行けそうだけどね。
 

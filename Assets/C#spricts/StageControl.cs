@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,10 +19,12 @@ public class StageControl : MonoBehaviour
     private bool doSceneCharge = false;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
-        if(playerObj != null && continuePoint != null && gameOverObj != null && fade != null)
+
+        if (playerObj != null && continuePoint != null && gameOverObj != null && fade != null)
         {
             gameOverObj.SetActive(false);
             playerObj.SetActive(true);
@@ -48,9 +51,11 @@ public class StageControl : MonoBehaviour
         //ゲームオーバーの時の処理
         if (GameManager.instance.isGameOver && !doGameOver)
         {
+
             playerObj.SetActive(false);//ゲームオーバーでぱっと消えるのも変かもしれん
             gameOverObj.SetActive(true);
             doGameOver = true;
+
         }
 
         if (fade != null&& startFade && !doSceneCharge)
@@ -70,8 +75,8 @@ public class StageControl : MonoBehaviour
                 {
                     GameManager.instance.stageNum = nextStageNum;
                 }
-
-                SceneManager.LoadScene("stage" + nextStageNum);//シーン移動はここからやってもろて
+                Debug.Log("stage" + nextStageNum);
+                SceneManager.LoadScene("stage" + nextStageNum);//シーン移動はここからやってもろて"stage" + nextStageNum
                 doSceneCharge = true;
             }
             else
@@ -84,6 +89,12 @@ public class StageControl : MonoBehaviour
     /// <summary>
     /// 最初から始める
     /// </summary>
+    /// 
+
+    public void RetryButton()
+    {
+        GameManager.instance.isGameOver = true;
+    }
     public void Retry()
     {
         ChangeScene(GameManager.instance.stageNum);
